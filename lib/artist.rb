@@ -1,6 +1,10 @@
 require 'pry'
 
 class Artist
+
+  extend Memorable::ClassMethods
+
+
   attr_accessor :name
   attr_reader :songs
 
@@ -8,7 +12,7 @@ class Artist
 
   def initialize
     @@artists << self
-    @songs = []
+    @songs = [] #artist has many songd
   end
 
   def self.find_by_name(name)
@@ -19,17 +23,17 @@ class Artist
     @@artists
   end
 
-  def self.reset_all
-    self.all.clear
-  end
-
-  def self.count
-    self.all.count
-  end
+  # def self.reset_all
+  #   self.all.clear
+  # end
+  # 
+  # def self.count
+  #   self.all.count
+  # end
 
   def add_song(song)
     @songs << song
-    song.artist = self
+    song.artist = self #calls aritst instance method on this instance of song, adds this instance of artist to song
   end
 
   def add_songs(songs)
@@ -37,6 +41,6 @@ class Artist
   end
 
   def to_param
-    name.downcase.gsub(' ', '-')
+    name.downcase.gsub(' ', '-') #"Taylor Swift" => "taylor-swift"
   end
 end
